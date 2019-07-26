@@ -4,7 +4,7 @@
 
 ### Environment
 
-- Hardware: Lenovo Thinkpad T480 laptop, Intel(R) Core(TM) i5-8250U CPU 
+- Hardware: Lenovo ThinkPad T480 laptop, Intel(R) Core(TM) i5-8250U CPU 
 @ 1.60GHz, 8G RAM
 - Operation System: Ubuntu 18.04.2 LTS
 - C++ Compiler: g++ (Ubuntu 7.4.0-ubuntu1\~18.04.1) 7.4.0
