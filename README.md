@@ -54,7 +54,7 @@ Each test case consists of an array of length 10000000 and 10000000 queries. The
 - tprep: the preprocessing time (in second)
 - tquery: the total query time (in second)
 - MQPS: million queries per second
-- ctp/ctq: the armotized preprocessing cost per element over the average cost per query
+- ctp/ctq: the amortized preprocessing cost per element over the average cost per query
 
 #### Sparse Table
 
@@ -70,7 +70,7 @@ Round | tprep | tquery | MQPS | ctp/ctq
 7 | 1.855586 |	1.114908 |	8.969350 |	1.664340 
 8 | 1.855936 |	1.051602 |	9.509301 |	1.764865 
 9 | 1.859268 |	1.122524 |	8.908495 |	1.656328 
-avg | 1.865510 | 1.0863473 | 9.205159 | 1.717232
+avg | 1.865510 | 1.086347 | 9.205159 | 1.717232
 
 #### Indirection
 
