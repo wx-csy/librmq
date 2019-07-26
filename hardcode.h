@@ -1,3 +1,6 @@
+#ifndef __HARDCODE_H__
+#define __HARDCODE_H__
+
 #include <cstdint>
 
 constexpr int SEGLEN = 8;
@@ -9,3 +12,5 @@ extern struct node {
 extern struct prep {
     std::int8_t result[SEGLEN][SEGLEN];
 } const * const lookup;
+
+#endif

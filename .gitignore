@@ -1,0 +1,5 @@
+.*
+!.gitignore
+hardcode.cpp
+prep
+librmq-test

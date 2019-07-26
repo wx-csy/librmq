@@ -1,21 +1,23 @@
 #include <algorithm>
 #include "hardcode.h"
 #include "rmq.h"
+#include <cstdio>
+#include <cassert>
 
-static int select_segment(int data[]) {
+static int select_segment(const int data[]) {
     int ptr = 0;
     while (int crit = nodes[ptr].crit >= 0) 
         ptr = nodes[ptr].son[data[crit / SEGLEN] < data[crit % SEGLEN]];
     return nodes[ptr].tree;
 }
 
-rmq::rmq(const size_t n, int * const data) :
+rmq::rmq(const size_t n, const int * const data) :
         n(n), data(data) {
     nr_blocks = (n + SEGLEN - 1) / SEGLEN;
     int *segdata = new int[nr_blocks];
     segid = new int[nr_blocks];
-    size_t ptr;
-    for (int i = 0, ptr = 0; ptr + SEGLEN <= n; ptr += SEGLEN, i++) {
+    size_t ptr = 0;
+    for (int i = 0; ptr + SEGLEN <= n; ptr += SEGLEN, i++) {
         segdata[i] = std::min_element(data + ptr, data + ptr + SEGLEN) - data;
         segid[i] = select_segment(data + ptr);
     }
@@ -36,19 +38,13 @@ int rmq::query(int l, int r) {
         return lookup[segid[lb]].result[l - base][r - base - 1] + base;
     } else {
         int lbase = lb * SEGLEN, rbase = rb * SEGLEN;
-        int v1 = lookup[segid[lb]].result[l - lbase][SEGLEN - 1];
-        int v2 = lookup[segid[rb]].result[0][r - rbase - 1];
-        int v, vv;
-        if (v1 == -1) {
-            v = v2 + rbase;
-        } else if (v2 == -1) {
-            v = v1 + lbase;
-        } else {
-            v1 += lbase; v2 += rbase;
-            v = (data[v1] < data[v2]) ? v1 : v2;
+        int v = lookup[segid[lb]].result[l - lbase][SEGLEN - 1];
+        if (r != rbase) {
+            int v2 = lookup[segid[rb]].result[0][r - rbase - 1];
+            if (data[v2] < data[v]) v = v2;
         }
         if (lb + 1 == rb) return v;
-        vv = st.query(lb + 1, rb);
+        int vv = st.query(lb + 1, rb);
         return data[vv] < data[v] ? vv : v;
     }
 }
