@@ -69,7 +69,7 @@ Solver | tprep | tquery | MQPS | ctp/ctq
 
 ## Changelog
 
-- ADD: implement a speculative policy in `rmq_ind` query (~200% speedup)
+- ADD: implement a speculative policy in query (~200% speedup)
 - ADD: implement a simple block decomposition algorithm `rmq_block` (thanks to Songyang Chen)
 
-The changelog for old versions can be found [here] (doc/changelog.md)
+The changelog for old versions can be found [here](doc/changelog.md)
