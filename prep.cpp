@@ -104,7 +104,7 @@ preorder_t perm_to_preorder(perm_t perm) {
     return result;
 }
 
-void print_prep(perm_t perm) {
+void print_lookup(perm_t perm) {
     int result[SEG_LENGTH][SEG_LENGTH];
     memset(result, -1, sizeof result);
     for (int i = 1; i <= SEG_LENGTH; i++) {
@@ -116,6 +116,24 @@ void print_prep(perm_t perm) {
     for (int i = 0; i < SEG_LENGTH; i++)
         for (int j = 0; j < SEG_LENGTH; j++)
             printf("%d,", result[i][j]);
+    printf("},\n");
+}
+
+void print_lookup_pref(perm_t perm) {
+    putchar('{');
+    for (int i = 1; i <= SEG_LENGTH; i++) {
+        int value = std::min_element(perm.begin(), perm.begin() + i) - perm.begin(); 
+        printf("%d,", value);
+    }
+    printf("},\n");
+}
+
+void print_lookup_suf(perm_t perm) {
+    putchar('{');
+    for (int i = 0; i < SEG_LENGTH; i++) {
+        int value = std::min_element(perm.begin() + i, perm.end()) - perm.begin(); 
+        printf("%d,", value);
+    }
     printf("},\n");
 }
 
@@ -137,13 +155,28 @@ int main() {
     decision_tree_node *node = new decision_tree_node(instances, 0);
     puts("#include <cstdint>");
     puts("#include \"hardcode.h\"");
-    puts("struct node const * const nodes = (const node[]){");
+    puts("namespace librmq {");
+    puts("static const decision_tree_node _nodes[] = {");
     node->serialize();
     delete node;
     puts("};\n");
-    puts("struct prep const * const lookup = (const prep[]){");
-    for (const auto& tr : trees) print_prep(tree_sample[tr]);
+    fprintf(stderr, "# of nodes in decision tree: %d\n", next_node_id);
+    puts("decision_tree_node const * const decision_tree_nodes = _nodes;");
+
+    puts("const std::int8_t lookup_table[][SEGLEN][SEGLEN] = {");
+    for (const auto& tr : trees) print_lookup(tree_sample[tr]);
     puts("};\n");
+    
+    puts("const std::int8_t lookup_pref[][SEGLEN] = {");
+    for (const auto& tr : trees) print_lookup_pref(tree_sample[tr]);
+    puts("};\n");
+    
+    puts("const std::int8_t lookup_suf[][SEGLEN] = {");
+    for (const auto& tr : trees) print_lookup_suf(tree_sample[tr]);
+    puts("};\n");
+    
+    puts("}");
+    fprintf(stderr, "# of different Cartesian trees: %d\n", (int)trees.size());
     return 0;
 }
 

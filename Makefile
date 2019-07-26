@@ -4,15 +4,16 @@ CXXFLAGS := -fsanitize=undefined -fsanitize=address
 .PHONY : clean
 
 librmq-test : $(SRCS) librmq.h
-	g++ $(SRCS) $(CXXFLAGS) -O3 -std=c++14 -ggdb -o $@
+	g++ $(SRCS) -O3 -std=c++14 -ggdb -o $@
 
 hardcode.cpp : prep
 	./prep > $@
 
 prep : prep.cpp
-	g++ $< -O3 -std=c++14 -ggdb -o $@	
+	g++ $< $(CXXFLAGS) -O3 -std=c++14 -ggdb -o $@	
 
 clean :
 	rm -rf librmq-test hardcode.cpp prep
 
 .DEFAULT_GOAL := librmq-test
+.DELETE_ON_ERROR :

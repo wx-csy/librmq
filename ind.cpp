@@ -6,11 +6,11 @@ namespace librmq {
 
 static inline int select_segment(const int data[]) {
     int ptr = 0;
-    while (nodes[ptr].crit > 0) { 
-        int crit = nodes[ptr].crit;
-        ptr = nodes[ptr].son[data[crit / SEGLEN] < data[crit % SEGLEN]];
+    int crit;
+    while ((crit = decision_tree_nodes[ptr].crit) > 0) { 
+        ptr = decision_tree_nodes[ptr].son[data[crit / SEGLEN] < data[crit % SEGLEN]];
     }
-    return nodes[ptr].tree;
+    return decision_tree_nodes[ptr].tree;
 }
 
 rmq_ind::rmq_ind(const size_t n, const int * const data) :
@@ -37,12 +37,12 @@ size_t rmq_ind::query(size_t l, size_t r) {
     if (l >= r) return -1;
     if (lb == rb) {
         size_t base = lb * SEGLEN;
-        return lookup[segid[lb]].result[l - base][r - base - 1] + base;
+        return lookup_table[segid[lb]][l - base][r - base - 1] + base;
     } else {
         size_t lbase = lb * SEGLEN, rbase = rb * SEGLEN;
-        size_t v = lookup[segid[lb]].result[l - lbase][SEGLEN - 1] + lbase;
+        size_t v = lookup_suf[segid[lb]][l - lbase] + lbase;
         if (r != rbase) {
-            size_t v2 = lookup[segid[rb]].result[0][r - rbase - 1] + rbase;
+            size_t v2 = lookup_pref[segid[rb]][r - rbase - 1] + rbase;
             if (data[v2] < data[v]) v = v2;
         }
         if (lb + 1 == rb) return v;
