@@ -1,6 +1,6 @@
 # librmq
 
-This toy library is a fast implementation that solves the static Range Minimum Query (RMQ) problem.
+This toy library implements several algorithms and data structures that solves the static Range Minimum Query (RMQ) problem.
 
 ## Range Minimum Query (RMQ) Problem
 
@@ -36,11 +36,11 @@ The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as
 
 ## Evaluation
 
-Evalutaions for old version can be found [here](doc/eval.md).
+Evaluations for old version can be found [here](doc/eval.md).
 
 ### Environment
 
-- Hardware: Lenovo Thinkpad T480 laptop, Intel(R) Core(TM) i5-8250U CPU 
+- Hardware: Lenovo ThinkPad T480 laptop, Intel(R) Core(TM) i5-8250U CPU 
 @ 1.60GHz, 8G RAM
 - Operation System: Ubuntu 18.04.2 LTS
 - C++ Compiler: g++ (Ubuntu 7.4.0-ubuntu1\~18.04.1) 7.4.0
