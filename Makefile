@@ -1,9 +1,10 @@
-SRCS :=	hardcode.cpp rmq.cpp st.cpp main.cpp
+SRCS :=	hardcode.cpp naive.cpp st.cpp ind.cpp main.cpp
+CXXFLAGS := -fsanitize=undefined -fsanitize=address
 
 .PHONY : clean
 
-librmq-test : $(SRCS) hardcode.h st.h rmq.h
-	g++ -fsanitize=undefined -fsanitize=address $(SRCS) -O3 -std=c++14 -ggdb -o $@
+librmq-test : $(SRCS) librmq.h
+	g++ $(SRCS) $(CXXFLAGS) -O3 -std=c++14 -ggdb -o $@
 
 hardcode.cpp : prep
 	./prep > $@
