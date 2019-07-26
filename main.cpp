@@ -100,8 +100,8 @@ int main() {
     functional_test<rmq_ind>();
     functional_test<rmq_block>();
     performance_test<rmq_naive>(10000, 10000, 10);
-    performance_test<rmq_st>(10000000, 10000000, 10);
-    performance_test<rmq_ind>(10000000, 10000000, 10);
+//    performance_test<rmq_st>(10000000, 10000000, 10);
+//    performance_test<rmq_ind>(10000000, 10000000, 10);
     performance_test<rmq_block>(10000000, 10000000, 10);
     return 0;
 }

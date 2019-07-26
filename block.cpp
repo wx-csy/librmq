@@ -4,7 +4,7 @@
 #include <cstdio>
 namespace librmq {
 
-static constexpr size_t BLOCKSZ = 16;
+static constexpr size_t BLOCKSZ = 256;
 
 inline void rmq_block::init_block(const int *data, size_t si) {
     size_t ptr = si * BLOCKSZ;
