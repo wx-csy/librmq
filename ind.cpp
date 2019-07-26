@@ -34,7 +34,10 @@ rmq_ind::rmq_ind(const size_t n, const int * const data) :
 
 size_t rmq_ind::query(size_t l, size_t r) {
     size_t lb = l / SEGLEN, rb = r / SEGLEN;
-    if (l >= r) return -1;
+    if (rb - lb > 2) { // speculative policy
+        size_t ret = st.query(lb, std::min(nr_blocks, rb + 1));
+        if (ret >= l and ret < r) return ret;
+    }
     if (lb == rb) {
         size_t base = lb * SEGLEN;
         return lookup_table[segid[lb]][l - base][r - base - 1] + base;

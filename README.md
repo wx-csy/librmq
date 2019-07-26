@@ -36,7 +36,7 @@ The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as
 
 ## Evaluation
 
-Evaluations for old version can be found [here](doc/eval.md).
+This page maintains the evaluation results for the current developing version. Evaluations for old version can be found [here](doc/eval.md).
 
 ### Environment
 
@@ -59,5 +59,11 @@ Each test case consists of an array of length 10000000 and 10000000 queries. The
 
 Solver | tprep | tquery | MQPS | ctp/ctq
 :-: | :-: | :-: | :-: | :-:
-`rmq_st` | 0.843508 | 0.637704 | 15.681257 | 1.322727 
-`rmq_ind` | 0.259908 | 1.586838 | 6.301841 | 0.163223
+`rmq_st` | 0.840555 | 0.649688 | 15.392004 | 1.293783
+`rmq_ind` | 0.259122 | 0.540844 | 18.489620 | 0.479107
+
+## Changelog
+
+- ADD: implement a speculative policy in `rmq_ind` query (~200% speedup)
+
+The changelog for old versions can be found [here] (doc/changelog.md)
