@@ -1,4 +1,4 @@
-SRCS :=	hardcode.cpp naive.cpp st.cpp ind.cpp main.cpp
+SRCS :=	hardcode.cpp naive.cpp st.cpp ind.cpp block.cpp main.cpp
 CXXFLAGS := -fsanitize=undefined -fsanitize=address
 
 .PHONY : clean

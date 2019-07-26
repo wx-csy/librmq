@@ -10,7 +10,7 @@ Naive solution works in O(n) per query with constant preprocessing time. Also th
 
 ## RMQ Solvers
 
-Currently, this library implements three RMQ solvers: naive, sparse-table and indirection. They have the uniform interface:
+Currently, this library implements three RMQ solvers: naive, sparse-table, indirection and simple block decomposition. They have the uniform interface:
 
 ``` c++
 class solver {
@@ -33,6 +33,10 @@ The sparse table solver solves the problem in O(n log n)/O(1) time.
 ### Indirection: rmq_ind
 
 The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as the underlying RMQ data structure.
+
+### Simple Block Decomposition rmq_block
+
+This algorithm is similar to indirection, but not preprocess a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average.
 
 ## Evaluation
 
@@ -61,9 +65,11 @@ Solver | tprep | tquery | MQPS | ctp/ctq
 :-: | :-: | :-: | :-: | :-:
 `rmq_st` | 0.840555 | 0.649688 | 15.392004 | 1.293783
 `rmq_ind` | 0.259122 | 0.540844 | 18.489620 | 0.479107
+`rmq_block` | 0.146919 | 0.478586 | 20.894886 | 0.306986
 
 ## Changelog
 
 - ADD: implement a speculative policy in `rmq_ind` query (~200% speedup)
+- ADD: implement a simple block decomposition algorithm `rmq_block` (thanks to Songyang Chen)
 
 The changelog for old versions can be found [here] (doc/changelog.md)

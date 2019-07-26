@@ -43,5 +43,19 @@ public:
     size_t query(size_t l, size_t r);
 };
 
+class rmq_block {
+    size_t n, nr_blocks;
+    const int *data;
+    size_t *pref, *suf;
+    rmq_st st;
+    
+    void init_block(const int *data, size_t ptr);
+
+public:
+    rmq_block(size_t n, const int *data);
+    ~rmq_block();
+    size_t query(size_t l, size_t r);
+};
+
 }
 #endif

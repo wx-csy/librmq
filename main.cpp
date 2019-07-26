@@ -9,13 +9,14 @@
 using namespace librmq;
 std::mt19937 gen(23529432);
 
+template <typename TSolver>
 void functional_test_instance(int size) {
     static int epoch = 0;
     printf("Running epoch #%d (size=%d) ... ", epoch++, size);
     int *data = new int[size];
     for (int i = 0; i < size; i++) data[i] = gen();
     rmq_st st(size, data);
-    rmq_ind rmqr(size, data);
+    TSolver rmqr(size, data);
     for (int i = 0; i < size; i++) {
         int l = gen() % size, r = gen() % size + 1;
         if (l == r) continue;
@@ -33,11 +34,16 @@ void functional_test_instance(int size) {
     delete[] data;
 }
 
+template <typename TSolver>
 void functional_test() {
-    for (int i = 0; i < 100; i++) functional_test_instance(gen() % 10 + 1);
-    for (int i = 0; i < 100; i++) functional_test_instance(gen() % 50 + 1);
-    for (int i = 0; i < 20; i++) functional_test_instance(gen() % 100000 + 1);
-    for (int i = 0; i < 10; i++) functional_test_instance(gen() % 1000000 + 1);
+    for (int i = 0; i < 100; i++) 
+        functional_test_instance<TSolver>(gen() % 10 + 1);
+    for (int i = 0; i < 100; i++) 
+        functional_test_instance<TSolver>(gen() % 50 + 1);
+    for (int i = 0; i < 20; i++) 
+        functional_test_instance<TSolver>(gen() % 100000 + 1);
+    for (int i = 0; i < 10; i++) 
+        functional_test_instance<TSolver>(gen() % 1000000 + 1);
 }
 
 template <typename TSolver>
@@ -91,9 +97,11 @@ void performance_test(int size, int nq, int rep = 10) {
 }
 
 int main() {
-    functional_test();
+    functional_test<rmq_ind>();
+    functional_test<rmq_block>();
     performance_test<rmq_naive>(10000, 10000, 10);
     performance_test<rmq_st>(10000000, 10000000, 10);
     performance_test<rmq_ind>(10000000, 10000000, 10);
+    performance_test<rmq_block>(10000000, 10000000, 10);
     return 0;
 }
