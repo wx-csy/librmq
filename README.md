@@ -41,6 +41,7 @@ The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as
 - Hardware: Lenovo Thinkpad T480 laptop, Intel(R) Core(TM) i5-8250U CPU 
 @ 1.60GHz, 8G RAM
 - Operation System: Ubuntu 18.04.2 LTS
+- RMQ Solver: librmq 1.0
 - C++ Compiler: g++ (Ubuntu 7.4.0-ubuntu1\~18.04.1) 7.4.0
 - Compiler Flags: `g++ -O3 -std=c++14 -ggdb $(SRCS) -o $(DEST)`
 
