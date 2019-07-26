@@ -34,9 +34,9 @@ The sparse table solver solves the problem in O(n log n)/O(1) time.
 
 The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as the underlying RMQ data structure.
 
-### Simple Block Decomposition rmq_block
+### Simple Block Decomposition: rmq_block
 
-This algorithm is similar to indirection, but not preprocess a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average.
+This algorithm is similar to indirection, but it does not preprocess a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average.
 
 ## Evaluation
 
