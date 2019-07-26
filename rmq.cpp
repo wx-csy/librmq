@@ -1,13 +1,14 @@
 #include <algorithm>
 #include "hardcode.h"
 #include "rmq.h"
-#include <cstdio>
 #include <cassert>
 
-static int select_segment(const int data[]) {
+static inline int select_segment(const int data[]) {
     int ptr = 0;
-    while (int crit = nodes[ptr].crit >= 0) 
+    while (nodes[ptr].crit > 0) { 
+        int crit = nodes[ptr].crit;
         ptr = nodes[ptr].son[data[crit / SEGLEN] < data[crit % SEGLEN]];
+    }
     return nodes[ptr].tree;
 }
 
@@ -38,9 +39,9 @@ int rmq::query(int l, int r) {
         return lookup[segid[lb]].result[l - base][r - base - 1] + base;
     } else {
         int lbase = lb * SEGLEN, rbase = rb * SEGLEN;
-        int v = lookup[segid[lb]].result[l - lbase][SEGLEN - 1];
+        int v = lookup[segid[lb]].result[l - lbase][SEGLEN - 1] + lbase;
         if (r != rbase) {
-            int v2 = lookup[segid[rb]].result[0][r - rbase - 1];
+            int v2 = lookup[segid[rb]].result[0][r - rbase - 1] + rbase;
             if (data[v2] < data[v]) v = v2;
         }
         if (lb + 1 == rb) return v;

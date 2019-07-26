@@ -88,7 +88,6 @@ struct decision_tree_node {
 };
 
 std::vector<instance> instances;
-decision_tree_node *node;
 
 preorder_t perm_to_preorder(perm_t perm) {
     preorder_t result;
@@ -97,8 +96,7 @@ preorder_t perm_to_preorder(perm_t perm) {
     while (stk.size()) {
         int l, r; std::tie(l, r) = stk.top(); stk.pop();
         if (l == r) continue;
-        int m = std::min_element(perm.begin() + l, perm.begin() + r)
-            - perm.begin();
+        int m = std::min_element(perm.begin() + l, perm.begin() + r) - perm.begin();
         result[ptr++] = m;
         stk.emplace(l, m);
         stk.emplace(m + 1, r);
@@ -111,9 +109,7 @@ void print_prep(perm_t perm) {
     memset(result, -1, sizeof result);
     for (int i = 1; i <= SEG_LENGTH; i++) {
         for (int j = 0; j < i; j++) {
-            result[j][i-1] = std::min_element(
-                perm.begin() + j, perm.begin() + i
-            ) - perm.begin();
+            result[j][i-1] = std::min_element(perm.begin() + j, perm.begin() + i) - perm.begin();
         }
     }
     putchar('{');
@@ -138,7 +134,7 @@ void work() {
 
 int main() {
     work();
-    node = new decision_tree_node(instances, 0);
+    decision_tree_node *node = new decision_tree_node(instances, 0);
     puts("#include <cstdint>");
     puts("#include \"hardcode.h\"");
     puts("struct node const * const nodes = (const node[]){");
