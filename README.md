@@ -69,13 +69,12 @@ Each test case consists of an array of length 10000000 and 10000000 queries. The
 
 Solver | tprep | tquery | MQPS | ctp/ctq
 :-: | :-: | :-: | :-: | :-:
-`rmq_st` | 0.840555 | 0.649688 | 15.392004 | 1.293783
-`rmq_ind` | 0.259122 | 0.540844 | 18.489620 | 0.479107
-`rmq_block` | 0.132950 | 0.095457 | 102.018955 | 1.356342
+`rmq_st` | 0.855396 | 0.650829 | 15.365025 | 1.314318
+`rmq_ind` | 0.262440 | 0.401369 | 24.914715 | 0.653863
+`rmq_block` | 0.133825 | 0.072000  | 138.889508 | 1.858694
 
 ## Changelog
 
-- ADD: implement a speculative policy in query (~200% speedup)
-- ADD: implement a simple block decomposition algorithm `rmq_block` (thanks to Songyang Chen)
+- ADD: move source code to headers
 
 The changelog for old versions can be found [here](doc/changelog.md).

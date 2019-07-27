@@ -1,63 +1,15 @@
-#ifndef __RMQ_H__
-#define __RMQ_H__
+#ifndef __LIBRMQ_H__
+#define __LIBRMQ_H__
 
-#include <cstdint>
+#include "librmq/naive.h"
+#include "librmq/st.h"
+#include "librmq/block.h"
+#include "librmq/ind.h"
 
 namespace librmq {
-
-using std::size_t;
-
-class rmq_naive {
-    size_t n;
-    const int *data = nullptr;    
-
-public:
-    rmq_naive(size_t n, const int *data);
-    ~rmq_naive() = default;
-    size_t query(size_t l, size_t r);
-};
-
-class rmq_st {
-    static constexpr int MAXLOGN = 60;
-    size_t n;
-    size_t *st[MAXLOGN] = {};
-    const int *data = nullptr;
-   
-public:
-    rmq_st() { n = 0; }
-    rmq_st(size_t n, const int *data) { init(n, data); }
-    void init(size_t n, const int *data, size_t *first = nullptr);
-    ~rmq_st();
-    size_t query(size_t l, size_t r);
-};
-
-class rmq_ind {
-    size_t n, nr_blocks;
-    const int *data;
-    int *segid;
-    rmq_st st;
-
-public:
-    rmq_ind(size_t n, const int *data);
-    ~rmq_ind();
-    size_t query(size_t l, size_t r);
-};
-
-class rmq_block {
-    size_t n, nr_blocks;
-    const int *data;
-    size_t *pref, *suf;
-    rmq_st st;
-    
-    void init_block(const int *data, size_t ptr);
-
-public:
-    rmq_block(size_t n, const int *data);
-    ~rmq_block();
-    size_t query(size_t l, size_t r);
-};
 
 using rmq_default = rmq_block;
 
 }
+
 #endif

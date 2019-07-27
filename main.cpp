@@ -93,15 +93,16 @@ void performance_test(int size, int nq, int rep = 10) {
     double atprep, atq;
     atprep = std::accumulate(tprep.begin(), tprep.end(), 0.0) / rep;
     atq = std::accumulate(tq.begin(), tq.end(), 0.0) / rep;
-    printf("tprep = %.6fs, tquery = %.6fs, ctp/ctq = %.4f\n", atprep, atq, atprep / atq / size * nq);
+    printf("tprep = %.6fs, tquery = %.6fs, MQPS = %.6f, ctp/ctq = %.6f\n", 
+        atprep, atq, nq / 1000000.0 / atq, atprep / atq / size * nq);
 }
 
 int main() {
     functional_test<rmq_ind>();
     functional_test<rmq_block>();
     performance_test<rmq_naive>(10000, 10000, 10);
-//    performance_test<rmq_st>(10000000, 10000000, 10);
-//    performance_test<rmq_ind>(10000000, 10000000, 10);
+    performance_test<rmq_st>(10000000, 10000000, 10);
+    performance_test<rmq_ind>(10000000, 10000000, 10);
     performance_test<rmq_block>(10000000, 10000000, 10);
     return 0;
 }

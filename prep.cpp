@@ -154,7 +154,7 @@ int main() {
     work();
     decision_tree_node *node = new decision_tree_node(instances, 0);
     puts("#include <cstdint>");
-    puts("#include \"hardcode.h\"");
+    puts("#include \"librmq/hardcode.h\"");
     puts("namespace librmq {");
     puts("static const decision_tree_node _nodes[] = {");
     node->serialize();
