@@ -10,7 +10,7 @@ Naive solution works in O(n) per query with constant preprocessing time. Also th
 
 ## RMQ Solvers
 
-Currently, this library implements three RMQ solvers: naive, sparse-table, indirection and simple block decomposition. They have the uniform interface:
+Currently, this library implements four RMQ solvers: naive, sparse-table, indirection and simple block decomposition. They have the uniform interface:
 
 ``` c++
 class solver {
@@ -32,11 +32,11 @@ The sparse table solver solves the problem in O(n log n)/O(1) time.
 
 ### Indirection: rmq_ind
 
-The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as the underlying RMQ data structure.
+The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as the underlying RMQ data structure. 
 
 ### Simple Block Decomposition: rmq_block
 
-This algorithm is similar to indirection, but it does not preprocess a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average.
+This algorithm is similar to indirection, but it does not precompute a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average. (Thanks Songyang Chen for providing this wonderful idea!)
 
 ## Evaluation
 
