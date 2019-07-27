@@ -4,7 +4,7 @@ This toy library implements several algorithms and data structures that solves t
 
 ## Range Minimum Query (RMQ) Problem
 
-Given an array `a[0...n-1]` and multiple queries of the form `(l, r)`. For each query, find (the index of) the minimum element in subarray `a[l...r-1]`.
+Given an array `a[0 ... n-1]` and multiple queries of the form `(l, r)`. For each query, find (the index of) the minimum element in subarray `a[l ... r-1]`.
 
 Naive solution works in O(n) per query with constant preprocessing time. Also there is a classic data structure called sparse table which works in O(1) per query with O(n log n) preprocessing time. In theoretical computer science, there is an algorithm where each query can be answered in O(1) time after O(n) preprocessing; the algorithm involves a technique called indirection, a.k.a. the method of four Russians. However, direct implementation of the theoretical algorithm hardly outperforms the O(n log n)/O(1) sparse table solution. So we need to adapt the original algorithm and fine tune the parameters. A short explanation of the theoretical part of the solution can be found in http://aequa.me/index.php/2019/07/25/range-minimum-query-and-lowest-common-ancestor-in-on-o1-time-an-overview/.
 
@@ -24,19 +24,25 @@ class solver {
 
 ### Naive Solver: rmq_naive
 
-The naive solver solves the problem in O(1)/O(n) time.
+The naive solver solves the problem in O(1)/O(n) time. In preprocessing stage, it simply stores a pointer to the data. For each query, it performs a linear scan and find the minimum element.
 
 ### Sparse Table: rmq_st
 
-The sparse table solver solves the problem in O(n log n)/O(1) time.
+The sparse table solver solves the problem in O(n log n)/O(1) time. It implements the sparse table, where answers for intervals of length power of 2 are precomputed. There are O(log n) different lengths, and for each length, there are O(n) intervals, so the preprocessing time and memory cost is O(n log n). For each query, it uses two intervals of length power of 2 to cover the entire interval. Specifically, for query `a[l ... r-1]`, let k=floor(log2(r-l)), then the two intervals used are `a[l ... l+2^k]` and `a[r-1-2^k ... r-1]`Due to the idempotence of minimum operation, the overlapped part will not affect the answer. So the complexity is O(1) per query.
 
 ### Indirection: rmq_ind
 
-The indirection solver solves the problem in O(n)/O(1) time. It uses `rmq_st` as the underlying RMQ data structure. 
+The indirection solver solves the problem in O(n)/O(1) time. In the current implementation, it partitions the entire array into segments of length 8. For each segment, extract its minimum element and build a sparse table on them. Also, for each segment, preprocess all possible queries entirely wthin this segment. There are actually not too much essentially different segments (only 1430 --- the 8th Catalan number). Actually all within segment queries are hardcoded. Hence, for each query, if it is entirely within a segment, it can be answered directly by lookup table; otherwise, the interval can be partitioned into two within-segment queries and a query over consecutive segments, and the latter one can be done by looking up the sparse table. The overall time is still constant.
+
+In the current implementation, a speculative heuristic is added: first query the minimum consecutive segments that contain the entire query interval; if the minimum element is in the query interval, then return the answer directly. This speeds up the query by ~200% in average.
 
 ### Simple Block Decomposition: rmq_block
 
-This algorithm is similar to indirection, but it does not precompute a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average. (Thanks Songyang Chen for providing this wonderful idea!)
+This algorithm is similar to indirection, but it does not precompute a lookup table. After O(n) preprocessing time, it answers each query in O(1) time in average.
+
+It also partitions the array into segments and build a sparse table over the segments, but the segment is much larger than than that in `rmq_ind`. The difference is, it does not preprocess a lookup table; it just preprocesses prefix minimum value and suffix minimum value for each block. For queries spanning multiple blocks, the partition in `rmq_id` still works; for queries that is entirely in one segment, just run a linear scan; such case is not very often in average. Also the speculative heuristic is still used.
+
+Thanks Songyang Chen for providing this wonderful idea!
 
 ## Evaluation
 
@@ -72,4 +78,4 @@ Solver | tprep | tquery | MQPS | ctp/ctq
 - ADD: implement a speculative policy in query (~200% speedup)
 - ADD: implement a simple block decomposition algorithm `rmq_block` (thanks to Songyang Chen)
 
-The changelog for old versions can be found [here](doc/changelog.md)
+The changelog for old versions can be found [here](doc/changelog.md).

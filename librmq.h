@@ -57,5 +57,7 @@ public:
     size_t query(size_t l, size_t r);
 };
 
+using rmq_default = rmq_block;
+
 }
 #endif
