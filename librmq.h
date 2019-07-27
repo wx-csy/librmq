@@ -5,6 +5,7 @@
 #include "librmq/st.h"
 #include "librmq/block.h"
 #include "librmq/ind.h"
+#include "librmq/zkw.h"
 
 namespace librmq {
 

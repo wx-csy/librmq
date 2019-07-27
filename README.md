@@ -10,7 +10,7 @@ Naive solution works in O(n) per query with constant preprocessing time. Also th
 
 ## RMQ Solvers
 
-Currently, this library implements four RMQ solvers: naive, sparse-table, indirection and simple block decomposition. They have the uniform interface:
+Currently, this library implements five RMQ solvers: naive, ZKW segment tree, sparse-table, indirection and simple block decomposition. They have the uniform interface:
 
 ``` c++
 class solver {
@@ -25,6 +25,10 @@ class solver {
 ### Naive Solver: rmq_naive
 
 The naive solver solves the problem in O(1)/O(n) time. In preprocessing stage, it simply stores a pointer to the data. For each query, it performs a linear scan and find the minimum element.
+
+### ZKW Segment Tree: rmq_zkw
+
+This data structure solves the range minimum in O(n)/O(log n) time.
 
 ### Sparse Table: rmq_st
 
@@ -69,12 +73,14 @@ Each test case consists of an array of length 10000000 and 10000000 queries. The
 
 Solver | tprep | tquery | MQPS | ctp/ctq
 :-: | :-: | :-: | :-: | :-:
-`rmq_st` | 0.855396 | 0.650829 | 15.365025 | 1.314318
-`rmq_ind` | 0.262440 | 0.401369 | 24.914715 | 0.653863
-`rmq_block` | 0.133825 | 0.072000  | 138.889508 | 1.858694
+`rmq_zkw` | 0.157009 | 4.013887 | 2.491351 | 0.039117
+`rmq_st` | 0.840631 | 0.633228 | 15.792090 | 1.327533
+`rmq_ind` | 0.260702 | 0.389355 | 25.683508 | 0.669574
+`rmq_block` | 0.135279 | 0.079615  | 125.604289 | 1.699163
 
 ## Changelog
 
+- ADD: implement the ZKW segment tree
 - ADD: move source code to headers
 
 The changelog for old versions can be found [here](doc/changelog.md).
