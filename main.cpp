@@ -99,6 +99,7 @@ void performance_test(size_t size, size_t nq, size_t rep = 10) {
 }
 
 int main() {
+    functional_test<rmq_zkw>();
     functional_test<rmq_ind>();
     functional_test<rmq_block>();
     performance_test<rmq_zkw>(10000000, 10000000, 10);

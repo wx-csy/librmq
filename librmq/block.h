@@ -9,7 +9,7 @@ namespace librmq {
 
 template <typename T>
 class rmq_block {
-    static constexpr size_t BLOCKSZ = 256;
+    static constexpr size_t BLOCKSZ = 1024;
     size_t n, nr_blocks;
     const T *data;
     size_t *pref, *suf;
