@@ -80,7 +80,4 @@ Solver | tprep | tquery | MQPS | ctp/ctq
 
 ## Changelog
 
-- ADD: implement the ZKW segment tree
-- ADD: move source code to headers
-
 The changelog for old versions can be found [here](doc/changelog.md).
