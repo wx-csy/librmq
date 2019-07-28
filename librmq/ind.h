@@ -4,13 +4,14 @@
 
 namespace librmq {
 
+template <typename T>
 class rmq_ind {
     size_t n, nr_blocks;
-    const int *data;
+    const T *data;
     int *segid;
-    rmq_st st;
+    rmq_st<T> st;
 
-    static inline int select_segment(const int data[]) {
+    static inline int select_segment(const T data[]) {
         int ptr = 0;
         int crit;
         while ((crit = decision_tree_nodes[ptr].crit) > 0) { 
@@ -20,7 +21,7 @@ class rmq_ind {
     }
 
 public:
-    rmq_ind(size_t n, const int *data) :
+    rmq_ind(size_t n, const T *data) :
             n(n), data(data) {
         nr_blocks = (n + SEGLEN - 1) / SEGLEN;
         size_t *segdata = new size_t[nr_blocks]; // ownership transferred to ST
@@ -31,7 +32,7 @@ public:
             segid[i] = select_segment(data + ptr);
         }
         if (ptr != n) {
-            int rdata[SEGLEN] = {0};
+            T rdata[SEGLEN] = {0};
             for (size_t i = 0; ptr + i < n; i++) rdata[i] = data[ptr + i];
             segdata[nr_blocks - 1] = std::min_element(data + ptr, data + n) - data;
             segid[nr_blocks - 1] = select_segment(rdata);

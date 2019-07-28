@@ -15,7 +15,7 @@ void functional_test_instance(int size) {
     printf("Running epoch #%d (size=%d) ... ", epoch++, size);
     int *data = new int[size];
     for (int i = 0; i < size; i++) data[i] = gen();
-    rmq_st st(size, data);
+    rmq_st<int> st(size, data);
     TSolver rmqr(size, data);
     for (int i = 0; i < size; i++) {
         int l = gen() % size, r = gen() % size + 1;
@@ -34,16 +34,16 @@ void functional_test_instance(int size) {
     delete[] data;
 }
 
-template <typename TSolver>
+template <template<typename> typename TSolver>
 void functional_test() {
     for (int i = 0; i < 100; i++) 
-        functional_test_instance<TSolver>(gen() % 10 + 1);
+        functional_test_instance<TSolver<int>>(gen() % 10 + 1);
     for (int i = 0; i < 100; i++) 
-        functional_test_instance<TSolver>(gen() % 50 + 1);
+        functional_test_instance<TSolver<int>>(gen() % 50 + 1);
     for (int i = 0; i < 20; i++) 
-        functional_test_instance<TSolver>(gen() % 100000 + 1);
+        functional_test_instance<TSolver<int>>(gen() % 100000 + 1);
     for (int i = 0; i < 10; i++) 
-        functional_test_instance<TSolver>(gen() % 1000000 + 1);
+        functional_test_instance<TSolver<int>>(gen() % 1000000 + 1);
 }
 
 template <typename TSolver>
@@ -80,14 +80,14 @@ std::pair<double, double> performance_test_instance(size_t size, size_t nq, int 
     return {tprep, tq};
 }
 
-template <typename TSolver>
+template <template<typename> typename TSolver>
 void performance_test(size_t size, size_t nq, size_t rep = 10) {
     std::vector<double> tprep, tq;
     printf("Testing size = %zu nq = %zu with %zu repititions\n", size, nq, rep);
     for (size_t i = 0; i < rep; i++) {
         printf("Round %zu ... ", i); 
         double ttprep, ttq;
-        std::tie(ttprep, ttq) = performance_test_instance<TSolver>(size, nq, gen());
+        std::tie(ttprep, ttq) = performance_test_instance<TSolver<int>>(size, nq, gen());
         printf("tprep = %.6fs, tquery = %.6fs\n", ttprep, ttq);
         tprep.push_back(ttprep); tq.push_back(ttq);
     }

@@ -9,13 +9,14 @@ namespace librmq {
 
 using std::size_t;
 
+template <typename T>
 class rmq_zkw {
     size_t n, ntot;
-    const int *data;
+    const T *data;
     size_t *tr;
 
 public:
-    rmq_zkw(size_t n, const int *data) : n(n), data(data) {
+    rmq_zkw(size_t n, const T *data) : n(n), data(data) {
         ntot = n;
         while (ntot & (ntot - 1)) ntot += ntot & -ntot;
         tr = new size_t[ntot << 1];

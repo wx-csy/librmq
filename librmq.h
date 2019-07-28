@@ -9,7 +9,8 @@
 
 namespace librmq {
 
-using rmq_default = rmq_block;
+template <typename T>
+using rmq_default = rmq_block<T>;
 
 }
 

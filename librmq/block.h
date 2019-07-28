@@ -7,14 +7,15 @@
 
 namespace librmq {
 
+template <typename T>
 class rmq_block {
     static constexpr size_t BLOCKSZ = 256;
     size_t n, nr_blocks;
-    const int *data;
+    const T *data;
     size_t *pref, *suf;
-    rmq_st st;
+    rmq_st<T> st;
     
-    void init_block(const int *data, size_t si) {
+    void init_block(const T *data, size_t si) {
         size_t ptr = si * BLOCKSZ;
         for (int i = 0; i < BLOCKSZ; i++) {
             if (i) {
@@ -37,7 +38,7 @@ class rmq_block {
     }
 
 public:
-    rmq_block(size_t n, const int *data) :
+    rmq_block(size_t n, const T *data) :
             n(n), data(data) {
         nr_blocks = (n + BLOCKSZ - 1) / BLOCKSZ;
         size_t *segdata = new size_t[nr_blocks];
@@ -49,7 +50,7 @@ public:
             init_block(data + ptr, si);
         }
         if (ptr != n) {
-            int rdata[BLOCKSZ] = {0};
+            T rdata[BLOCKSZ] = {0};
             for (size_t i = 0; ptr + i < n; i++) rdata[i] = data[ptr + i];
             segdata[nr_blocks - 1] = std::min_element(data + ptr, data + n) - data;
             init_block(rdata, nr_blocks - 1);

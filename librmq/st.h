@@ -5,11 +5,12 @@
 
 namespace librmq {
 
+template <typename T>
 class rmq_st {
     static constexpr int MAXLOGN = 60;
     size_t n;
     size_t *st[MAXLOGN] = {};
-    const int *data = nullptr;
+    const T *data = nullptr;
    
     static inline size_t fast_log2(size_t length) {
         return sizeof(size_t) * 8 - 1 - __builtin_clzll(length);
@@ -18,9 +19,9 @@ class rmq_st {
 public:
     rmq_st() { n = 0; }
 
-    rmq_st(size_t n, const int *data) { init(n, data); }
+    rmq_st(size_t n, const T *data) { init(n, data); }
 
-    void init(size_t n, const int *data, size_t *first = nullptr) {
+    void init(size_t n, const T *data, size_t *first = nullptr) {
         this->n = n; this->data = data;
         if (first) {
             st[0] = first; 

@@ -8,12 +8,13 @@ namespace librmq {
 
 using std::size_t;
 
+template <typename T>
 class rmq_naive {
     size_t n;
-    const int *data = nullptr;    
+    const T *data = nullptr;    
 
 public:
-    rmq_naive(size_t n, const int *data) : 
+    rmq_naive(size_t n, const T *data) : 
         n(n), data(data) {}
 
     size_t query(size_t l, size_t r) {
